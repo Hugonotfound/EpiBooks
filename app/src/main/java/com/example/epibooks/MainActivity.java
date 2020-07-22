@@ -3,9 +3,11 @@ package com.example.epibooks;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +17,19 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 
@@ -83,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 text.setText("To Read");
             }
         });
-
+        test();
 
 
 
@@ -91,50 +106,63 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void test () {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="https://www.googleapis.com/books/v1/volumes?q=Harry+Potter";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        Toast.makeText(getApplicationContext(), "response" ,  Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "pas ok" ,  Toast.LENGTH_SHORT).show();
+            }
+        });
 
-    public void SetSwitcher(String filter) {
-        if (filter == "Fav") {
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+    public void SetSwitcher(final String filter) {
+        listBook.setAdapter(null);
+        if (filter == "Fav")
             listBook.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, fav));
-            listBook.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String testName = parent.getItemAtPosition(position).toString();
-                    for (int i = 0; i < fav.size();i++) {
-                        if (fav.get(i).toString() == testName)
-                            Toast.makeText(getApplicationContext(), fav.get(i).toString() ,  Toast.LENGTH_SHORT).show();
-
-                    }
-                }
-            });
-        }
-        else if (filter == "ToRead") {
+        else if (filter == "ToRead")
             listBook.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, toRead));
-            listBook.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String testName = parent.getItemAtPosition(position).toString();
-                    for (int i = 0; i < toRead.size();i++) {
-                        if (toRead.get(i).toString() == testName)
-                            Toast.makeText(getApplicationContext(), toRead.get(i).toString() ,  Toast.LENGTH_SHORT).show();
-
-                    }
-                }
-            });
-        }
-        else if (filter == "Reading") {
+        else if (filter == "Reading")
             listBook.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, reading));
-            listBook.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String testName = parent.getItemAtPosition(position).toString();
-                    for (int i = 0; i < reading.size();i++) {
-                        if (reading.get(i).toString() == testName)
-                            Toast.makeText(getApplicationContext(), reading.get(i).toString() ,  Toast.LENGTH_SHORT).show();
+        listBook.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                if (filter == "Fav") {
+                    String ClickedFav = parent.getItemAtPosition(position).toString();
+                    for (int i = 0; i < fav.size();i++) {
+                        if (fav.get(i).toString() == ClickedFav)
+                            Toast.makeText(getApplicationContext(), fav.get(i).toString() ,  Toast.LENGTH_SHORT).show();
                     }
                 }
-            });
-        }
+                if (filter == "ToRead") {
+                    String ClickedToRead = parent.getItemAtPosition(position).toString();
+                    for (int x = 0; x < toRead.size();x++) {
+                        if (toRead.get(x).toString() == ClickedToRead)
+                            Toast.makeText(getApplicationContext(), toRead.get(x).toString() ,  Toast.LENGTH_SHORT).show();
+                    }
+                }
+                if (filter == "Reading") {
+                    String ClickedReading = parent.getItemAtPosition(position).toString();
+                    for (int y = 0; y < reading.size();y++) {
+                        if (reading.get(y).toString() == ClickedReading)
+                            Toast.makeText(getApplicationContext(), reading.get(y).toString() ,  Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+
     }
 
 }

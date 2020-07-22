@@ -66,11 +66,12 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginTop="272dp"
+        android:background="#00FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.045"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/btn_star_big_on" />
+        app:srcCompat="@drawable/fav_logo" />
 
     <ImageButton
         android:id="@+id/Btn_Reading"
@@ -78,11 +79,12 @@
         android:layout_height="45dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="272dp"
+        android:background="#00FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/Btn_Fav"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/reading_logo_temp" />
+        app:srcCompat="@drawable/reading_logo" />
 
     <ImageButton
         android:id="@+id/Btn_ToRead"
@@ -90,11 +92,12 @@
         android:layout_height="45dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="272dp"
+        android:background="#00FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/Btn_Reading"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/toread_logo_temp" />
+        app:srcCompat="@drawable/toread_logo" />
 
     <TextView
         android:id="@+id/Title_List"
