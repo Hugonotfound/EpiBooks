@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<Object> toRead = new ArrayList<Object>();
     public ArrayList<Object> global = new ArrayList<>();
     public ListView listBook;
+    public static String search_id;
 
 
 
@@ -37,12 +38,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //set Front interact//
         listBook = findViewById(R.id.List_Book);
-        EditText inputSearch = findViewById(R.id.Input_Book);
+        final EditText inputSearch = findViewById(R.id.Input_Book);
         ImageButton btn_search = findViewById(R.id.Btn_Search);
-        ImageButton btn_fav = findViewById(R.id.Btn_Fav);
-        ImageButton btn_reading = findViewById(R.id.Btn_Reading);
-        ImageButton btn_toRead = findViewById(R.id.Btn_ToRead);
-        final TextView text = findViewById(R.id.Title_List);
+
 
         for (int i = 0; i < 100; i++) {
             fav.add(i);
@@ -66,55 +64,22 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-        btn_fav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                text.setText("Favorites");
-            }
-        });
-        btn_reading.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                text.setText("Reading");
-            }
-        });
-        btn_toRead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                text.setText("To Read");
-            }
-        });
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                test();
+                search_id = inputSearch.getText().toString();
+                Intent searchActivity =  new Intent(getApplicationContext() , SearchActivity.class);
+                startActivity(searchActivity);
+                onPause();
             }
         });
 
+
+
+
     }
 
-    public void test () {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://www.googleapis.com/books/v1/volumes?q=Harry+Potter";
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        Toast.makeText(getApplicationContext(), "response" ,  Toast.LENGTH_SHORT).show();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "pas ok" ,  Toast.LENGTH_SHORT).show();
-            }
-        });
 
-// Add the request to the RequestQueue.
-        queue.add(stringRequest);
-    }
     public void SetArrayForListView() {
         global.add("===Favorites===");
         for(int i = 0; i < fav.size(); i++)
