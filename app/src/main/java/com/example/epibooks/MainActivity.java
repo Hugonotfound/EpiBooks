@@ -86,11 +86,12 @@ public class MainActivity extends AppCompatActivity {
                 text.setText("To Read");
             }
         });
-
-
-
-
-
+        btn_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                test();
+            }
+        });
 
     }
 
