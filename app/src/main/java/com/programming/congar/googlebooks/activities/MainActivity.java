@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                                     if(authors.length() == 1){
                                         author = authors.getString(0);
                                     }else {
-                                        author = authors.getString(0) + "|" +authors.getString(1);
+                                        author = authors.getString(0) + " & " +authors.getString(1);
                                     }
 
 

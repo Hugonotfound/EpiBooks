@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.programming.congar.googlebooks.model.Book;
@@ -13,16 +14,15 @@ import java.util.List;
 
 public class Database extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "Epibooks.db";
+    private static final String DATABASE_NAME = "EpibooksDB.db";
     private static final int DATABASE_VERSION = 1;
-
     public Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String strSql = "create Table T_Books ("
+        String strSql = "create Table T_Favorite ("
                 + "     idBook integer primary key autoincrement,"
                 + "     title text not null,"
                 + "     author text not null,"
@@ -31,30 +31,84 @@ public class Database extends SQLiteOpenHelper {
                 + "     imgLink text not null"
                 + ")";
         db.execSQL(strSql);
+
+        String strSql1 = "create Table T_Toread ("
+                + "     idBook integer primary key autoincrement,"
+                + "     title text not null,"
+                + "     author text not null,"
+                + "     description text not null,"
+                + "     category text not null,"
+                + "     imgLink text not null"
+                + ")";
+        db.execSQL(strSql1);
+
+        String strSql2 = "create Table T_Reading ("
+                + "     idBook integer primary key autoincrement,"
+                + "     title text not null,"
+                + "     author text not null,"
+                + "     description text not null,"
+                + "     category text not null,"
+                + "     imgLink text not null"
+                + ")";
+        db.execSQL(strSql2);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         String strSql = "drop table T_Books";
         db.execSQL(strSql);
+        String strSql1 = "drop table T_Favorite";
+        db.execSQL(strSql1);
+        String strSql2 = "drop table T_Toread";
+        db.execSQL(strSql2);
+        String strSql3 = "drop table T_Reading";
+        db.execSQL(strSql3);
         this.onCreate(db);
     }
 
-    public void insertBook(Book book) {
+    public void insertBook(Book book, String cat) {
         String title = book.getTitle();
         String author = book.getAuthors();
         String description = book.getDescription();
         String category = book.getCategories();
         String imgLink = book.getThumbnail();
-        String strSql = "insert into T_Books (title, author, description, category, imgLink) values ('"
+        String table;
+
+        if (cat.equalsIgnoreCase("TOREAD"))
+            table = "T_Toread";
+        else if (cat.equalsIgnoreCase("FAVORITE"))
+            table = "T_Favorite";
+        else if (cat.equalsIgnoreCase("READING"))
+            table = "T_Reading";
+        else
+            table = "T_Favorite";
+
+
+        title = title.replace("'", "''");
+        author = author.replace("'", "''");
+        description = description.replace("'", "''");
+        imgLink = imgLink.replace("'", "''");
+
+        String strSql = "insert into "+ table +" (title, author, description, category, imgLink) values ('"
                 + title + "', '" + author + "', '" + description + "', '" + category + "', '" + imgLink + "')";
+
 
         this.getWritableDatabase().execSQL(strSql);
     }
 
-    public List<Book> readBooks() {
+    public List<Book> readBooks(String cat) {
+        String table;
+
+        if (cat.equalsIgnoreCase("TOREAD"))
+            table = "T_Toread";
+        else if (cat.equalsIgnoreCase("FAVORITE"))
+            table = "T_Favorite";
+        else if (cat.equalsIgnoreCase("READING"))
+            table = "T_Reading";
+        else
+            table = "T_Favorite";
         List<Book> books = new ArrayList<>();
-        String strSql = "select * from T_Books order by idBook";
+        String strSql = "select * from "+ table +" order by idBook";
         Cursor cursor = this.getReadableDatabase().rawQuery(strSql, null);
         cursor.moveToFirst();
 
@@ -67,18 +121,48 @@ public class Database extends SQLiteOpenHelper {
         return(books);
     }
 
-    public Boolean checkBook(String title) {
-        String strSql = "select * from T_Books order by title";
+    public Boolean checkBook(String title, String cat) {
+        String table;
+
+        if (cat.equalsIgnoreCase("TOREAD"))
+            table = "T_Toread";
+        else if (cat.equalsIgnoreCase("FAVORITE"))
+            table = "T_Favorite";
+        else if (cat.equalsIgnoreCase("READING"))
+            table = "T_Reading";
+        else
+            table = "T_Favorite";
+        String strSql = "select * from "+ table +" order by idBook";
         Cursor cursor = this.getReadableDatabase().rawQuery(strSql, null);
         cursor.moveToFirst();
-        if (cursor.isAfterLast())
-            return (false);
-        else
-            return (true);
+
+
+        while ( !cursor.isAfterLast()) {
+            Log.i("DEBUG", "checkBook: " + cursor.getString(1));
+            if (cursor.getString(1).equalsIgnoreCase(title)) {
+                Log.i("DEBUG", "DANS LES FAVORIES");
+                cursor.close();
+                return true;
+            }
+            cursor.moveToNext();
+        }
+        cursor.close();
+        Log.i("DEBUG", "PAS DANS LES FAVORIES");
+        return false;
     }
 
-    public void deleteBook(Book book) {
-        String strSql = "delete from T_Books where title='" + book.getTitle() + "'";
+    public void deleteBook(Book book, String cat) {
+        String table;
+
+        if (cat.equalsIgnoreCase("TOREAD"))
+            table = "T_Toread";
+        else if (cat.equalsIgnoreCase("FAVORITE"))
+            table = "T_Favorite";
+        else if (cat.equalsIgnoreCase("READING"))
+            table = "T_Reading";
+        else
+            table = "T_Favorite";
+        String strSql = "delete from "+ table +" where title='" + book.getTitle().replace("'", "''") + "'";
         this.getWritableDatabase().execSQL(strSql);
     }
 

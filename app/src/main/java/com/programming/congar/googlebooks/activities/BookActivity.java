@@ -3,12 +3,18 @@ package com.programming.congar.googlebooks.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.programming.congar.googlebooks.activities.Database;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -22,10 +28,6 @@ public class BookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
 
-        //hide the default actionBar
-
-
-        //Receive
         final Bundle extras = getIntent().getExtras();
         String title =""
                 , authors ="", description="" , categories ="", publishDate=""
@@ -41,16 +43,16 @@ public class BookActivity extends AppCompatActivity {
             preview = extras.getString("book_preview");
             thumbnail = extras.getString("book_thumbnail");
         }
-
-        final Button rm_button = findViewById(R.id.rm_button);
-        final Button fav_button = findViewById(R.id.fav_button);
+        final ImageButton toRead_button = findViewById(R.id.toRead_button);
+        final ImageButton reading_button = findViewById(R.id.reading_button);
+        final ImageButton fav_button = findViewById(R.id.fav_button);
         final TextView tvTitle = findViewById(R.id.aa_book_name);
         final TextView tvAuthors = findViewById(R.id.aa_author);
         final TextView tvDesc = findViewById(R.id.aa_description);
         final TextView tvCatag = findViewById(R.id.aa_categorie);
         final TextView tvPublishDate = findViewById(R.id.aa_publish_date);
-        TextView tvInfo = findViewById(R.id.aa_info);
-        TextView tvPreview = findViewById(R.id.aa_preview);
+        Button tvInfo = findViewById(R.id.aa_info);
+        Button tvPreview = findViewById(R.id.aa_preview);
         final Database database = new Database(this);
         ImageView ivThumbnail = findViewById(R.id.aa_thumbnail);
 
@@ -88,36 +90,54 @@ public class BookActivity extends AppCompatActivity {
             }
         });
 
-        boolean result = database.checkBook(finalTitle);
-        if (result == true) {
-            fav_button.setVisibility(View.GONE);
-            rm_button.setVisibility(View.VISIBLE);
-        }
-        else {
-            fav_button.setVisibility(View.VISIBLE);
-            rm_button.setVisibility(View.GONE);
-        }
-
-
-
-        rm_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fav_button.setVisibility(View.VISIBLE);
-                rm_button.setVisibility(View.GONE);
-                Book book_delete = new Book(finalTitle, finalAuthors, finalPublishDate, finalDescription, finalCategories, finalThumbnail, finalBuy, finalPreview1,"0",0,"null");
-                database.deleteBook(book_delete);
-
-            }
-        });
         fav_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fav_button.setVisibility(View.GONE);
-                rm_button.setVisibility(View.VISIBLE);
-                Book book_post = new Book(finalTitle, finalAuthors, finalPublishDate, finalDescription, finalCategories, finalThumbnail, finalBuy, finalPreview1,"0",0,"null");
-                database.insertBook(book_post);
+                    Book book_post = new Book(finalTitle, finalAuthors, finalPublishDate, finalDescription, finalCategories, finalThumbnail, finalBuy, finalPreview1,"0",0,"none");
+                if (database.checkBook(finalTitle, "FAVORITE") == true) {
+                    Toast.makeText(getApplicationContext(), "SUPP", Toast.LENGTH_SHORT).show();
+                    Log.i("DEBUG", "Suppr le livre");
+                    database.deleteBook(book_post, "FAVORITE");
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "ADD", Toast.LENGTH_SHORT).show();
+                    Log.i("DEBUG", "Ajouter le livre");
+                    database.insertBook(book_post, "FAVORITE");
+                }
+            }
+        });
 
+        reading_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Book book_post = new Book(finalTitle, finalAuthors, finalPublishDate, finalDescription, finalCategories, finalThumbnail, finalBuy, finalPreview1,"0",0,"none");
+                if (database.checkBook(finalTitle, "READING") == true) {
+                    Toast.makeText(getApplicationContext(), "SUPP", Toast.LENGTH_SHORT).show();
+                    Log.i("DEBUG", "Suppr le livre");
+                    database.deleteBook(book_post, "READING");
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "ADD", Toast.LENGTH_SHORT).show();
+                    Log.i("DEBUG", "Ajouter le livre");
+                    database.insertBook(book_post, "READING");
+                }
+            }
+        });
+
+        toRead_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Book book_post = new Book(finalTitle, finalAuthors, finalPublishDate, finalDescription, finalCategories, finalThumbnail, finalBuy, finalPreview1,"0",0,"none");
+                if (database.checkBook(finalTitle, "TOREAD") == true) {
+                    Toast.makeText(getApplicationContext(), "SUPP", Toast.LENGTH_SHORT).show();
+                    Log.i("DEBUG", "Suppr le livre");
+                    database.deleteBook(book_post, "TOREAD");
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "ADD", Toast.LENGTH_SHORT).show();
+                    Log.i("DEBUG", "Ajouter le livre");
+                    database.insertBook(book_post, "TOREAD");
+                }
             }
         });
 
