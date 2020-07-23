@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Book> mBooks;
     private RecyclerViewAdapter mAdapter;
     private RequestQueue mRequestQueue;
+    private Database database;
 
     private static  final  String BASE_URL="https://www.googleapis.com/books/v1/volumes?q=";
 
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         search_button= findViewById(R.id.search_buttton);
         loading_indicator=findViewById(R.id.loading_indicator);
         error_message= findViewById(R.id.message_display);
+        database = new Database(this);
 
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -178,10 +180,6 @@ public class MainActivity extends AppCompatActivity {
             error_message.setVisibility(View.VISIBLE);
             return;
         }
-
-        //  Log.d("QUERY",search_query);
-
-
         if(search_query.equals(""))
         {
             Toast.makeText(this,"Please enter your query",Toast.LENGTH_SHORT).show();
