@@ -31,7 +31,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         search_edit_text=findViewById(R.id.search_box);
-        search_button= findViewById(R.id.search_buttton);
+        search_button= findViewById(R.id.search_button);
         loading_indicator=findViewById(R.id.loading_indicator);
         error_message= findViewById(R.id.message_display);
 
