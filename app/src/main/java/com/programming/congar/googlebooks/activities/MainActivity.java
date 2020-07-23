@@ -1,6 +1,7 @@
 package com.programming.congar.googlebooks.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private Button search_button;
     private ProgressBar loading_indicator;
     private TextView error_message;
+    private Button bibli_button;
 
 
     @Override
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         search_button= findViewById(R.id.search_button);
         loading_indicator=findViewById(R.id.loading_indicator);
         error_message= findViewById(R.id.message_display);
+        bibli_button = findViewById(R.id.bibli_button);
 
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -70,6 +73,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mBooks.clear();
                 search();
+            }
+        });
+        bibli_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent bookList =  new Intent(getApplicationContext() , book_list.class);
+                startActivity(bookList);
+                onPause();
             }
         });
 
