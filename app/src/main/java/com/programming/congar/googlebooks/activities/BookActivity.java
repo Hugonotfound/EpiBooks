@@ -6,12 +6,14 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.programming.congar.googlebooks.activities.Database;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.programming.congar.googlebooks.R;
+import com.programming.congar.googlebooks.model.Book;
 
 public class BookActivity extends AppCompatActivity {
 
@@ -24,7 +26,7 @@ public class BookActivity extends AppCompatActivity {
 
 
         //Receive
-        Bundle extras = getIntent().getExtras();
+        final Bundle extras = getIntent().getExtras();
         String title =""
                 , authors ="", description="" , categories ="", publishDate=""
                 ,info ="", buy ="",preview ="" ,thumbnail ="";
@@ -41,15 +43,15 @@ public class BookActivity extends AppCompatActivity {
         }
 
 
-
-        TextView tvTitle = findViewById(R.id.aa_book_name);
-        TextView tvAuthors = findViewById(R.id.aa_author);
-        TextView tvDesc = findViewById(R.id.aa_description);
-        TextView tvCatag = findViewById(R.id.aa_categorie);
-        TextView tvPublishDate = findViewById(R.id.aa_publish_date);
+        Button fav_button = findViewById(R.id.fav_button);
+        final TextView tvTitle = findViewById(R.id.aa_book_name);
+        final TextView tvAuthors = findViewById(R.id.aa_author);
+        final TextView tvDesc = findViewById(R.id.aa_description);
+        final TextView tvCatag = findViewById(R.id.aa_categorie);
+        final TextView tvPublishDate = findViewById(R.id.aa_publish_date);
         TextView tvInfo = findViewById(R.id.aa_info);
         TextView tvPreview = findViewById(R.id.aa_preview);
-
+        final Database database = new Database(this);
         ImageView ivThumbnail = findViewById(R.id.aa_thumbnail);
 
         tvTitle.setText(title);
@@ -78,7 +80,21 @@ public class BookActivity extends AppCompatActivity {
             }
         });
 
-
+        final String finalTitle = title;
+        final String finalAuthors = authors;
+        final String finalPublishDate = publishDate;
+        final String finalDescription = description;
+        final String finalCategories = categories;
+        final String finalThumbnail = thumbnail;
+        final String finalBuy = buy;
+        final String finalPreview1 = preview;
+        fav_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Book book_post = new Book(finalTitle, finalAuthors, finalPublishDate, finalDescription, finalCategories, finalThumbnail, finalBuy, finalPreview1,"0",0,"null");
+                database.insertBook(book_post);
+            }
+        });
 
         RequestOptions requestOptions = new RequestOptions().centerCrop().placeholder(R.drawable.loading_shape).error(R.drawable.loading_shape);
 
