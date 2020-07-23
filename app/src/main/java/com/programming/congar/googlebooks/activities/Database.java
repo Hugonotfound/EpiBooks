@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import com.programming.congar.googlebooks.model.Book;
 
@@ -64,6 +65,21 @@ public class Database extends SQLiteOpenHelper {
         }
         cursor.close();
         return(books);
+    }
+
+    public Boolean checkBook(String title) {
+        String strSql = "select * from T_Books order by title";
+        Cursor cursor = this.getReadableDatabase().rawQuery(strSql, null);
+        cursor.moveToFirst();
+        if (cursor.isAfterLast())
+            return (false);
+        else
+            return (true);
+    }
+
+    public void deleteBook(Book book) {
+        String strSql = "delete from T_Books where title='" + book.getTitle() + "'";
+        this.getWritableDatabase().execSQL(strSql);
     }
 
 }

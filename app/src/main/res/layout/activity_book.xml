@@ -124,13 +124,14 @@
 
     <Button
         android:id="@+id/fav_button"
-        android:layout_width="144dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="220dp"
+        android:layout_width="105dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="300dp"
         android:background="#77E15D"
         android:text="Add To Fav"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
