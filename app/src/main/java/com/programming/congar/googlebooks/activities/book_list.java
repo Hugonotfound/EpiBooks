@@ -32,4 +32,5 @@ public class book_list extends AppCompatActivity {
         storedRecyclerViewAdapter = new RecyclerViewAdapter(book_list.this , books);
         storedRecyclerView.setAdapter(storedRecyclerViewAdapter);
     }
+    
 }

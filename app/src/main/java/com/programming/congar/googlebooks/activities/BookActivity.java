@@ -42,8 +42,8 @@ public class BookActivity extends AppCompatActivity {
             thumbnail = extras.getString("book_thumbnail");
         }
 
-
-        Button fav_button = findViewById(R.id.fav_button);
+        final Button rm_button = findViewById(R.id.rm_button);
+        final Button fav_button = findViewById(R.id.fav_button);
         final TextView tvTitle = findViewById(R.id.aa_book_name);
         final TextView tvAuthors = findViewById(R.id.aa_author);
         final TextView tvDesc = findViewById(R.id.aa_description);
@@ -69,8 +69,16 @@ public class BookActivity extends AppCompatActivity {
             }
         });
 
-
+        final String finalTitle = title;
+        final String finalAuthors = authors;
+        final String finalPublishDate = publishDate;
+        final String finalDescription = description;
+        final String finalCategories = categories;
+        final String finalThumbnail = thumbnail;
+        final String finalBuy = buy;
+        final String finalPreview1 = preview;
         final String finalPreview = preview;
+
         tvPreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,19 +88,36 @@ public class BookActivity extends AppCompatActivity {
             }
         });
 
-        final String finalTitle = title;
-        final String finalAuthors = authors;
-        final String finalPublishDate = publishDate;
-        final String finalDescription = description;
-        final String finalCategories = categories;
-        final String finalThumbnail = thumbnail;
-        final String finalBuy = buy;
-        final String finalPreview1 = preview;
+        boolean result = database.checkBook(finalTitle);
+        if (result == true) {
+            fav_button.setVisibility(View.GONE);
+            rm_button.setVisibility(View.VISIBLE);
+        }
+        else {
+            fav_button.setVisibility(View.VISIBLE);
+            rm_button.setVisibility(View.GONE);
+        }
+
+
+
+        rm_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fav_button.setVisibility(View.VISIBLE);
+                rm_button.setVisibility(View.GONE);
+                Book book_delete = new Book(finalTitle, finalAuthors, finalPublishDate, finalDescription, finalCategories, finalThumbnail, finalBuy, finalPreview1,"0",0,"null");
+                database.deleteBook(book_delete);
+
+            }
+        });
         fav_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fav_button.setVisibility(View.GONE);
+                rm_button.setVisibility(View.VISIBLE);
                 Book book_post = new Book(finalTitle, finalAuthors, finalPublishDate, finalDescription, finalCategories, finalThumbnail, finalBuy, finalPreview1,"0",0,"null");
                 database.insertBook(book_post);
+
             }
         });
 
