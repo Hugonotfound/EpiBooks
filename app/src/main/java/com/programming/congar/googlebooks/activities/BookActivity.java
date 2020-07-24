@@ -95,12 +95,12 @@ public class BookActivity extends AppCompatActivity {
             public void onClick(View v) {
                     Book book_post = new Book(finalTitle, finalAuthors, finalPublishDate, finalDescription, finalCategories, finalThumbnail, finalBuy, finalPreview1,"0",0,"none");
                 if (database.checkBook(finalTitle, "FAVORITE") == true) {
-                    Toast.makeText(getApplicationContext(), "SUPP", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Removed from favorites", Toast.LENGTH_SHORT).show();
                     Log.i("DEBUG", "Suppr le livre");
                     database.deleteBook(book_post, "FAVORITE");
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "ADD", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
                     Log.i("DEBUG", "Ajouter le livre");
                     database.insertBook(book_post, "FAVORITE");
                 }
@@ -112,12 +112,12 @@ public class BookActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Book book_post = new Book(finalTitle, finalAuthors, finalPublishDate, finalDescription, finalCategories, finalThumbnail, finalBuy, finalPreview1,"0",0,"none");
                 if (database.checkBook(finalTitle, "READING") == true) {
-                    Toast.makeText(getApplicationContext(), "SUPP", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Removed from readings", Toast.LENGTH_SHORT).show();
                     Log.i("DEBUG", "Suppr le livre");
                     database.deleteBook(book_post, "READING");
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "ADD", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Added to readings", Toast.LENGTH_SHORT).show();
                     Log.i("DEBUG", "Ajouter le livre");
                     database.insertBook(book_post, "READING");
                 }
@@ -129,12 +129,12 @@ public class BookActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Book book_post = new Book(finalTitle, finalAuthors, finalPublishDate, finalDescription, finalCategories, finalThumbnail, finalBuy, finalPreview1,"0",0,"none");
                 if (database.checkBook(finalTitle, "TOREAD") == true) {
-                    Toast.makeText(getApplicationContext(), "SUPP", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Removed from Toreads", Toast.LENGTH_SHORT).show();
                     Log.i("DEBUG", "Suppr le livre");
                     database.deleteBook(book_post, "TOREAD");
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "ADD", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Added to Toreads", Toast.LENGTH_SHORT).show();
                     Log.i("DEBUG", "Ajouter le livre");
                     database.insertBook(book_post, "TOREAD");
                 }

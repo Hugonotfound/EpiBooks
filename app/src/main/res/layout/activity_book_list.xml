@@ -23,14 +23,14 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_search_black_24dp" />
+                app:srcCompat="@drawable/toread" />
 
             <ImageButton
                 android:id="@+id/dispReading_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@android:drawable/checkbox_on_background" />
+                app:srcCompat="@drawable/reading" />
 
             <ImageButton
                 android:id="@+id/dispFavorite_button"
