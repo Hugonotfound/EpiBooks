@@ -1,20 +1,10 @@
-# GoogleBooks
+# Epibooks
 
-Books Search
+A android app to find books and stock them in your private and offline library.
 
 
 
 using :
 
 google books API
-
 Volley
-
-Glide
-
-
-
-video explain:
-
-https://www.youtube.com/watch?v=vUMvWYzlgOs&feature=youtu.be
-#volley #api #search #books #sourcecode #google
